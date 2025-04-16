@@ -16,7 +16,11 @@ class AdminSeeder extends Seeder
             'password' => Hash::make('123456789'),
             'Alamat' => 'Admin',
             'NoTelp' => '08998261409',
+<<<<<<< HEAD
             'Gambar' => 'default.jpg',
+=======
+            'Gambar' => 'smku.png',
+>>>>>>> eeb912e (Tambah semua file awal project)
             'NamaPetugas' => 'Admin Super',
             'Jabatan' => 'Administrator',
             'role' => 'Admin',

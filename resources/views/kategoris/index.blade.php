@@ -65,7 +65,11 @@
                                         </a>
 
                                         <form action="{{ route('kategoris.destroy', $kategori->KategoriID) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus kategori ini?');">
+<<<<<<< HEAD
                                             @csrf
+=======
+                                                           
+>>>>>>> eeb912e (Tambah semua file awal project)
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm" title="Hapus Kategori">
                                                 <i class="fas fa-trash-alt"></i>

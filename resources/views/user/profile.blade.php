@@ -14,9 +14,13 @@
                             style="width: 150px; height: 150px; object-fit: cover; cursor: pointer;" 
                             data-bs-toggle="modal" data-bs-target="#profilePictureModal">
                     </div>
+<<<<<<< HEAD
                     <p class="mt-2">
                         <a href="#" class="text-primary text-decoration-none" data-bs-toggle="modal" data-bs-target="#changeProfileModal">Ubah Foto Profil</a>
                     </p>
+=======
+                  
+>>>>>>> eeb912e (Tambah semua file awal project)
 
                     <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
                         @csrf

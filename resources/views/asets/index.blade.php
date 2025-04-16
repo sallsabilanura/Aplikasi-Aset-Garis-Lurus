@@ -10,6 +10,10 @@
     <!-- Link Bootstrap CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     
+<<<<<<< HEAD
+=======
+    
+>>>>>>> eeb912e (Tambah semua file awal project)
 </head>
 
 <body>
@@ -23,6 +27,7 @@
         </div>
         @endif
 
+<<<<<<< HEAD
         <!-- Add Asset Button and Search Form -->
         <div class="card shadow-sm mb-4">
             <div class="card-body">
@@ -40,6 +45,52 @@
                 </div>
             </div>
         </div>
+=======
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <form method="GET" action="{{ route('asets.index') }}">
+            <div class="row g-2 align-items-center">
+                <!-- Input Cari -->
+                <div class="col-md-3">
+                    <input type="text" name="search" class="form-control" placeholder="Cari Aset" value="{{ request('search') }}">
+                </div>
+
+                <!-- Tombol Cari -->
+                <div class="col-auto">
+                    <button class="btn btn-primary" type="submit">Cari</button>
+                </div>
+
+                <!-- Tombol Tambah Aset -->
+                @if(auth()->user()->role == 'Instansi')
+                    <div class="col-auto">
+                        <a href="{{ route('asets.create') }}" class="btn btn-primary">Tambah Aset</a>
+                    </div>
+                @endif
+
+                <!-- Dropdown Kategori (lebih panjang) -->
+                <div class="col-md-4">
+                    <select name="kategori" class="form-select" required>
+                        <option value="">Pilih Kategori</option>
+                        @foreach ($kategori as $kategoriOption)
+                            <option value="{{ $kategoriOption->KategoriID }}" {{ request('kategori') == $kategoriOption->KategoriID ? 'selected' : '' }}>
+                                {{ $kategoriOption->NamaKategori }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- Tombol Export PDF -->
+                <div class="col-auto">
+                    <a href="{{ route('asets.exportPDF') }}" class="btn btn-danger">
+                        <i class="fas fa-file-pdf"></i> Export PDF
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+      
+>>>>>>> eeb912e (Tambah semua file awal project)
 
         <!-- Asset Table Inside a Card -->
         <div class="card shadow-sm">

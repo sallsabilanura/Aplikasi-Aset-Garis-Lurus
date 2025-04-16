@@ -6,7 +6,12 @@ use App\Models\Aset;
 use App\Models\KategoriAset;
 use App\Models\User;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+<<<<<<< HEAD
 use Illuminate\Http\Request;
+=======
+use Illuminate\Http\Request;     
+use Barryvdh\DomPDF\Facade\Pdf;
+>>>>>>> eeb912e (Tambah semua file awal project)
 
 
 
@@ -20,6 +25,7 @@ class AsetController extends Controller
      */
 
 
+<<<<<<< HEAD
 
     public function index(Request $request)
     {
@@ -80,6 +86,111 @@ class AsetController extends Controller
     
         return view('asets.penghapusan', compact('asets'));
     }
+=======
+     public function exportPDF(Request $request)
+{
+    $kategoriId = $request->input('kategori'); // Ambil kategori yang dipilih
+
+    // Mengambil aset berdasarkan kategori yang dipilih, atau semua aset jika tidak ada kategori yang dipilih
+    $asets = Aset::query();
+
+    if ($kategoriId) {
+        // Filter berdasarkan kategori yang dipilih
+        $asets = $asets->where('KategoriID', $kategoriId);
+    }
+
+    // Ambil data aset bersama kategori dan user
+    $asets = $asets->with(['kategori', 'user'])->get();
+
+    // Load view dan generate PDF
+    $pdf = Pdf::loadView('asets.pdf', compact('asets'));
+
+    return $pdf->download('daftar_aset.pdf');
+}
+
+     
+public function index(Request $request)
+{
+    $query = Aset::query();
+
+    // Hanya user Instansi yang melihat aset sendiri
+    if (auth()->user()->role == 'Instansi') {
+        $query->where('user_id', auth()->id());
+    }
+
+    // Pencarian
+    if ($request->has('search')) {
+        $search = $request->input('search');
+        $query->where(function ($q) use ($search) {
+            $q->where('NamaAset', 'like', "%{$search}%")
+              ->orWhere('KodeAset', 'like', "%{$search}%")
+              ->orWhereHas('kategori', function ($q) use ($search) {
+                  $q->where('NamaKategori', 'like', "%{$search}%");
+              });
+
+            // Jika admin, bisa cari berdasarkan nama instansi
+            if (auth()->user()->role == 'Admin') {
+                $q->orWhereHas('user', function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%");
+                });
+            }
+        });
+    }
+
+    // Filter berdasarkan instansi (khusus admin)
+    if (auth()->user()->role == 'Admin' && $request->filled('instansi')) {
+        $query->where('user_id', $request->input('instansi'));
+    }
+
+    $kategori = KategoriAset::all();
+
+    // Ambil semua user dengan role Instansi
+    $instansis = \App\Models\User::where('role', 'Instansi')->get();
+
+    $asets = $query->orderBy('created_at', 'desc')->paginate(30);
+
+    return view('asets.index', compact('asets', 'kategori', 'instansis'));
+}
+public function penghapusan(Request $request)
+{
+    $query = Aset::query();
+
+    // Filter berdasarkan search
+    if ($request->filled('search') && $request->input('filter') === 'search') {
+        $search = $request->input('search');
+        $query->where(function ($q) use ($search) {
+            $q->where('NamaAset', 'like', "%{$search}%")
+              ->orWhere('KodeAset', 'like', "%{$search}%")
+              ->orWhereHas('kategori', function ($q) use ($search) {
+                  $q->where('NamaKategori', 'like', "%{$search}%");
+              });
+        });
+    }
+
+    // Filter status
+    if ($request->filled('status')) {
+        $query->where('Status', $request->status);
+    }
+
+    // Filter instansi untuk Admin
+    if (auth()->user()->role == 'Admin' && $request->filled('instansi')) {
+        $query->where('user_id', $request->instansi);
+    }
+
+    // Filter hanya aset milik user Instansi
+    if (auth()->user()->role == 'Instansi') {
+        $query->where('user_id', auth()->id());
+    }
+
+    $asets = $query->orderBy('created_at', 'desc')->paginate(30);
+
+    // Kirim daftar instansi hanya jika Admin
+    $instansis = auth()->user()->role == 'Admin' ? User::where('role', 'Instansi')->get() : [];
+
+    return view('asets.penghapusan', compact('asets', 'instansis'));
+}
+
+>>>>>>> eeb912e (Tambah semua file awal project)
     
 
     public function updateStatus(Request $request)
@@ -285,5 +396,10 @@ class AsetController extends Controller
             'values' => $asetStats->values()
         ]);
     }
+<<<<<<< HEAD
     
+=======
+ 
+
+>>>>>>> eeb912e (Tambah semua file awal project)
 }

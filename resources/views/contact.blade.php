@@ -16,7 +16,11 @@
 
         <div class="contact-detail">
             <h4>Email</h4>
+<<<<<<< HEAD
             <p>asetku@company.com</p>
+=======
+            <p>flowaset@gmail.com</p>
+>>>>>>> eeb912e (Tambah semua file awal project)
         </div>
 
 

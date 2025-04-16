@@ -35,20 +35,35 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
+<<<<<<< HEAD
 route::resource('asets', AsetController::class);
 route::resource('users', UserController::class);
 route::resource('kategoris', KategoriAsetController::class);
 route::resource('penyusutans', PenyusutanController::class);
 route::resource('testimonials', TestimonialController::class);
+=======
+Route::resource('asets', AsetController::class);
+Route::resource('users', UserController::class);
+Route::resource('kategoris', KategoriAsetController::class);
+Route::resource('testimonials', TestimonialController::class);
+>>>>>>> eeb912e (Tambah semua file awal project)
 Route::post('/asets/update-status', [AsetController::class, 'updateStatus'])->name('asets.updateStatus');
 Route::PUT('/asets/{AsetID}/update-location', [AsetController::class, 'updateLocation'])->name('asets.updateLocation');
 Route::get('/penghapusan', [AsetController::class, 'penghapusan'])->name('asets.penghapusan');
 
+<<<<<<< HEAD
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Auth::routes(['reset' => true]);
+=======
+Auth::Routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::Routes(['reset' => true]);
+>>>>>>> eeb912e (Tambah semua file awal project)
 Route::get('/user-chart', [UserController::class, 'showUserChart'])->name('user.chart');
 Route::get('/profile', [UserController::class, 'showProfile'])->name('user.profile');
 Route::put('/profile', [UserController::class, 'update'])->name('profile.update');
@@ -65,3 +80,10 @@ Route::get('/kontak', function () {
     return view('contact');
 });
 
+<<<<<<< HEAD
+=======
+Route::get('/asets/export/pdf', [AsetController::class, 'exportPDF'])->name('asets.exportPDF');
+Route::get('/penyusutans/cetak', [PenyusutanController::class, 'cetak'])->name('penyusutans.cetak');
+
+route::resource('penyusutans', PenyusutanController::class);
+>>>>>>> eeb912e (Tambah semua file awal project)

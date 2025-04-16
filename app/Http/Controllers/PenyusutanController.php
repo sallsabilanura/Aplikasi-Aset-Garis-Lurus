@@ -5,6 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Penyusutan;
 use App\Models\Aset;
 use Illuminate\Http\Request;
+<<<<<<< HEAD
+=======
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Instansi; // Pastikan sudah import model Instansi
+
+>>>>>>> eeb912e (Tambah semua file awal project)
 
 class PenyusutanController extends Controller
 {
@@ -13,16 +19,40 @@ class PenyusutanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+<<<<<<< HEAD
     public function index(Request $request)
     {
         // Mulai dengan query untuk Penyusutan
         $query = Penyusutan::query();
     
         // Cek jika user adalah 'Instansi' dan tambahkan filter berdasarkan 'user_id'
+=======
+    public function cetak(Request $request)
+    {
+        $tahun = $request->input('TahunPenyusutan');
+    
+        $penyusutan = Penyusutan::with(['aset', 'user'])
+            ->when($tahun, function ($query, $tahun) {
+                return $query->where('TahunPenyusutan', $tahun);
+            })
+            ->get();
+    
+        $pdf = Pdf::loadView('penyusutans.cetak', compact('penyusutan', 'tahun'));
+    
+        return $pdf->stream('laporan_penyusutan_' . $tahun . '.pdf');
+    }
+
+
+    public function index(Request $request)
+    {
+        $query = Penyusutan::query();
+    
+>>>>>>> eeb912e (Tambah semua file awal project)
         if (auth()->user()->role == 'Instansi') {
             $query->where('user_id', auth()->id());
         }
     
+<<<<<<< HEAD
         // Ambil nilai pencarian
         $search = $request->input('search');
         
@@ -38,6 +68,38 @@ class PenyusutanController extends Controller
     
         // Kembalikan ke view dengan data penyusutan
         return view('penyusutans.index', compact('penyusutan'));
+=======
+        $search = $request->input('search');
+        $tahun = $request->input('TahunPenyusutan');
+        $instansiId = $request->input('instansi');
+    
+        // Filter instansi (khusus untuk Admin)
+        if (auth()->user()->role == 'Admin' && $instansiId) {
+            $query->where('user_id', $instansiId);
+        }
+    
+        $penyusutan = $query
+            ->when($search, function ($query, $search) {
+                return $query->whereHas('aset', function ($query) use ($search) {
+                    $query->where('NamaAset', 'like', "%$search%")
+                          ->orWhere('KodeAset', 'like', "%$search%");
+                });
+            })
+            ->when($tahun, function ($query, $tahun) {
+                return $query->where('TahunPenyusutan', $tahun);
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(30);
+    
+        $daftar_tahun = Penyusutan::select('TahunPenyusutan')->distinct()->pluck('TahunPenyusutan');
+    
+        $instansis = []; // default
+        if (auth()->user()->role == 'Admin') {
+            $instansis = \App\Models\User::where('role', 'Instansi')->get(); // atau model Instansi kalau kamu pakai relasi khusus
+        }
+    
+        return view('penyusutans.index', compact('penyusutan', 'daftar_tahun', 'instansis'));
+>>>>>>> eeb912e (Tambah semua file awal project)
     }
     
     

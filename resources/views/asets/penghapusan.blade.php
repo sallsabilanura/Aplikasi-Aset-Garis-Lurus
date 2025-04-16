@@ -22,6 +22,7 @@
         </div>
         @endif
 
+<<<<<<< HEAD
         <!-- Add Asset Button and Search Form -->
         <div class="card shadow-sm mb-4">
             <div class="card-body">
@@ -47,6 +48,49 @@
                 </div>
             </div>
         </div>
+=======
+       <!-- Add Asset Button and Search Form -->
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <form method="GET" action="{{ route('asets.penghapusan') }}">
+            <div class="row g-2 align-items-end">
+                <div class="col-md-4">
+                    <label class="form-label">Cari Nama/Kode Aset</label>
+                    <input type="text" name="search" class="form-control" placeholder="Cari Aset" value="{{ request('search') }}">
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Status</label>
+                    <select name="status" class="form-select">
+                        <option value=""> Pilih Status </option>
+                        <option value="Aktif" {{ request('status') == 'Aktif' ? 'selected' : '' }}>Aktif</option>
+                        <option value="Tidak Aktif" {{ request('status') == 'Tidak Aktif' ? 'selected' : '' }}>Tidak Aktif</option>
+                    </select>
+                </div>
+
+                @if(auth()->user()->role == 'Admin')
+                <div class="col-md-3">
+                    <label class="form-label">Instansi</label>
+                    <select name="instansi" class="form-select">
+                        <option value=""> Pilih Instansi </option>
+                        @foreach($instansis as $instansi)
+                            <option value="{{ $instansi->id }}" {{ request('instansi') == $instansi->id ? 'selected' : '' }}>
+                                {{ $instansi->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                @endif
+
+                <div class="col-md-2 d-flex gap-2">
+                    <button class="btn btn-primary w-100" type="submit" name="filter" value="search">Cari</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+>>>>>>> eeb912e (Tambah semua file awal project)
 
         <!-- Asset Table Inside a Card -->
         <div class="card shadow-sm">

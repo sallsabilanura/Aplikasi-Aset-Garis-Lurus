@@ -425,7 +425,11 @@
 
     <p>
         <i class="bx bx-envelope"></i>
+<<<<<<< HEAD
         <a href="mailto:support@asetflow.com" class="text-dark text-decoration-none">support@asetflow.com</a> |
+=======
+        <a href="mailto:support@asetflow.com" class="text-dark text-decoration-none">flowaset@gmail.com</a> |
+>>>>>>> eeb912e (Tambah semua file awal project)
         <i class="bx bxl-whatsapp"></i>
         <a href="https://wa.me/6281234567890" class="text-dark text-decoration-none">+62 812-3456-7890</a>
     </p>
