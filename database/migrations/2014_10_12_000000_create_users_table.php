@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('NamaPetugas')->nullable();
             $table->string('Jabatan')->nullable();
             $table->enum('role', ['Admin', 'Instansi'])->default('Instansi'); 
+            $table->enum('Status', ['Aktif', 'Nonaktif'])->default('Aktif');
             $table->rememberToken();
             $table->timestamps();
         });

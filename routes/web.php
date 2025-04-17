@@ -68,3 +68,4 @@ Route::get('/asets/export/pdf', [AsetController::class, 'exportPDF'])->name('ase
 Route::get('/penyusutans/cetak', [PenyusutanController::class, 'cetak'])->name('penyusutans.cetak');
 
 route::resource('penyusutans', PenyusutanController::class);
+Route::put('/users/{id}/update-status', [UserController::class, 'updateStatus'])->name('users.updateStatus');
