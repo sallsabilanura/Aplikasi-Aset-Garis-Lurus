@@ -67,4 +67,14 @@ public function showProfile()
     return back()->with('success', 'Profil berhasil diperbarui!');
 }
 
+public function updateStatus(Request $request, $id)
+{
+    $user = User::findOrFail($id); // Mencari pengguna berdasarkan ID
+    $user->Status = $request->input('Status'); // Mengubah status
+    $user->save(); // Menyimpan perubahan
+
+    return redirect()->back()->with('success', 'Status akun berhasil diupdate');
+}
+
+
 }

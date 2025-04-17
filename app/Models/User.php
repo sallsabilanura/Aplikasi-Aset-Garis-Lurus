@@ -30,6 +30,7 @@ class User extends Authenticatable
         'NamaPetugas',
         'Jabatan',
         'role',
+        'Status'
     ];
 
     /**

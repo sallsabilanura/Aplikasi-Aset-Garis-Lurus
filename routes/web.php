@@ -86,4 +86,8 @@ Route::get('/asets/export/pdf', [AsetController::class, 'exportPDF'])->name('ase
 Route::get('/penyusutans/cetak', [PenyusutanController::class, 'cetak'])->name('penyusutans.cetak');
 
 route::resource('penyusutans', PenyusutanController::class);
+<<<<<<< HEAD
 >>>>>>> eeb912e (Tambah semua file awal project)
+=======
+Route::put('/users/{id}/update-status', [UserController::class, 'updateStatus'])->name('users.updateStatus');
+>>>>>>> bafbc4c (Deskripsi perubahan)

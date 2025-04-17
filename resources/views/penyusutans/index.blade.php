@@ -173,7 +173,12 @@
                         </select>
                     </div>
                     @endif
-
+                      <!-- Tombol Tambah Aset -->
+                @if(auth()->user()->role == 'Instansi')
+                    <div class="col-auto">
+                        <a href="{{ route('penyusutans.create') }}" class="btn btn-primary">Tambah Aset</a>
+                    </div>
+                @endif
                     <!-- Tombol Aksi -->
                     <div class="col-md-2 d-flex gap-2">
                         <button class="btn btn-primary w-100" type="submit">Cari</button>
