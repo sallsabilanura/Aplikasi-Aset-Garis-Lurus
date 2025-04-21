@@ -90,4 +90,9 @@ route::resource('penyusutans', PenyusutanController::class);
 >>>>>>> eeb912e (Tambah semua file awal project)
 =======
 Route::put('/users/{id}/update-status', [UserController::class, 'updateStatus'])->name('users.updateStatus');
+<<<<<<< HEAD
 >>>>>>> bafbc4c (Deskripsi perubahan)
+=======
+Route::get('/asets/show/{AsetID}', [AsetController::class, 'show'])->name('asets.show');
+
+>>>>>>> 798e797 (update)

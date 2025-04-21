@@ -24,6 +24,7 @@ class AsetController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 
@@ -87,27 +88,33 @@ class AsetController extends Controller
         return view('asets.penghapusan', compact('asets'));
     }
 =======
+=======
+>>>>>>> 798e797 (update)
      public function exportPDF(Request $request)
-{
-    $kategoriId = $request->input('kategori'); // Ambil kategori yang dipilih
-
-    // Mengambil aset berdasarkan kategori yang dipilih, atau semua aset jika tidak ada kategori yang dipilih
-    $asets = Aset::query();
-
-    if ($kategoriId) {
-        // Filter berdasarkan kategori yang dipilih
-        $asets = $asets->where('KategoriID', $kategoriId);
-    }
-
-    // Ambil data aset bersama kategori dan user
-    $asets = $asets->with(['kategori', 'user'])->get();
-
-    // Load view dan generate PDF
-    $pdf = Pdf::loadView('asets.pdf', compact('asets'));
-
-    return $pdf->download('daftar_aset.pdf');
-}
-
+     {
+         $kategoriId = $request->input('kategori'); // Ambil kategori yang dipilih
+         $userId = auth()->user()->id; // Ambil user_id dari user yang sedang login
+     
+         // Mengambil aset berdasarkan kategori yang dipilih, atau semua aset jika tidak ada kategori yang dipilih
+         $asets = Aset::query();
+     
+         if ($kategoriId) {
+             // Filter berdasarkan kategori yang dipilih
+             $asets = $asets->where('KategoriID', $kategoriId);
+         }
+     
+         // Filter berdasarkan user_id yang sedang login
+         $asets = $asets->where('user_id', $userId);
+     
+         // Ambil data aset bersama kategori dan user
+         $asets = $asets->with(['kategori', 'user'])->get();
+     
+         // Load view dan generate PDF
+         $pdf = Pdf::loadView('asets.pdf', compact('asets'));
+     
+         return $pdf->download('daftar_aset.pdf');
+     }
+     
      
 public function index(Request $request)
 {
@@ -282,7 +289,11 @@ public function penghapusan(Request $request)
         ];
 
         // Generate QR code dari data JSON
-        $qrCode = QrCode::size(300)->generate(json_encode($data));
+// Buat URL menuju halaman detail aset
+$url = route('asets.show', ['AsetID' => $aset->AsetID]);
+
+// Generate QR code dengan URL, bukan JSON
+$qrCode = QrCode::size(300)->generate($url);
 
         // Kirim data aset dan QR code ke view
         return view('asets.show', compact('aset', 'qrCode'));
