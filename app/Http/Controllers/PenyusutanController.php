@@ -21,6 +21,7 @@ class PenyusutanController extends Controller
         $tahun = $request->input('TahunPenyusutan');
     
         $penyusutan = Penyusutan::with(['aset', 'user'])
+            ->where('user_id', auth()->id()) 
             ->when($tahun, function ($query, $tahun) {
                 return $query->where('TahunPenyusutan', $tahun);
             })
@@ -30,7 +31,7 @@ class PenyusutanController extends Controller
     
         return $pdf->stream('laporan_penyusutan_' . $tahun . '.pdf');
     }
-
+    
 
     public function index(Request $request)
     {

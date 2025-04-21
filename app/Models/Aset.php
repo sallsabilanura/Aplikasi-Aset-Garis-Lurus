@@ -15,8 +15,9 @@ class Aset extends Model
 
     public function kategori()
     {
-        return $this->belongsTo(KategoriAset::class, 'KategoriID', 'KategoriID');
+        return $this->belongsTo(KategoriAset::class, 'KategoriID', 'KategoriID'); 
     }
+    
  
     public function penyusutan()
     {
@@ -24,6 +25,7 @@ class Aset extends Model
     }
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
+    
 }

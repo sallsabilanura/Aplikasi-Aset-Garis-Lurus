@@ -69,3 +69,5 @@ Route::get('/penyusutans/cetak', [PenyusutanController::class, 'cetak'])->name('
 
 route::resource('penyusutans', PenyusutanController::class);
 Route::put('/users/{id}/update-status', [UserController::class, 'updateStatus'])->name('users.updateStatus');
+Route::get('/asets/show/{AsetID}', [AsetController::class, 'show'])->name('asets.show');
+
