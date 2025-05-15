@@ -37,21 +37,25 @@
 
 
                     <div class="form-group mb-3">
-                        <label for="AsetID">Aset</label>
-                        <select name="AsetID" id="AsetID" class="form-select" required>
-                            <option value="" data-tanggal="" data-nilai="" data-residu="" data-manfaat="" data-kode="">-- Pilih Aset --</option>
-                            @foreach ($asets as $aset)
-                            <option value="{{ $aset->AsetID }}"
-                                data-tanggal="{{ $aset->TanggalPerolehan }}"
-                                data-nilai="{{ $aset->NilaiPerolehan }}"
-                                data-residu="{{ $aset->NilaiResidu }}"
-                                data-manfaat="{{ $aset->MasaManfaat }}"
-                                data-kode="{{ $aset->KodeAset }}">
-                                {{ $aset->NamaAset }}
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
+    <label for="AsetID">Aset</label>
+    <select name="AsetID" id="AsetID" class="form-select" required>
+        <option value="" data-tanggal="" data-nilai="" data-residu="" data-manfaat="" data-kode="" data-kuantitas="">-- Pilih Aset --</option>
+        @foreach ($asets as $aset)
+        <option value="{{ $aset->AsetID }}"
+            data-tanggal="{{ $aset->TanggalPerolehan }}"
+            data-nilai="{{ $aset->NilaiPerolehan }}"
+            data-residu="{{ $aset->NilaiResidu }}"
+            data-manfaat="{{ $aset->MasaManfaat }}"
+            data-kode="{{ $aset->KodeAset }}"
+            data-kuantitas="{{ $aset->Kuantitas }}">
+            
+            {{ $aset->NamaAset }} - Kuantitas {{ $aset->Kuantitas }}
+        </option>
+        @endforeach
+    </select>
+</div>
+
+
 
                     <div class="form-group mb-3">
                         <label for="KodeAset">Kode Aset</label>

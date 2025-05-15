@@ -86,11 +86,13 @@
             <tr>
                 <th>No</th>
                 <th>Nama Aset</th>
-                <th>Kode</th>
                 <th>Kategori</th>
+                <th>Qty</th>
+                <th>Dana</th>
+                <th>Program</th>
+                <th>Tanggal Perolehan</th>
                 <th>Nilai</th>
                 <th>Manfaat</th>
-                <th>Tanggal</th>
                 <th>Instansi</th>
             </tr>
         </thead>
@@ -99,11 +101,13 @@
             <tr>
                 <td>{{ $i + 1 }}</td>
                 <td>{{ $aset->NamaAset }}</td>
-                <td>{{ $aset->KodeAset }}</td>
                 <td>{{ $aset->kategori->NamaKategori ?? '-' }}</td>
+                <td>{{ $aset->Kuantitas }}</td>
+                <td>{{ $aset->Dana }}</td>
+                <td>{{ $aset->Program }}</td>
+                <td>{{ $aset->TanggalPerolehan }}</td>
                 <td class="currency">Rp {{ number_format($aset->NilaiPerolehan, 0, ',', '.') }}</td>
                 <td>{{ $aset->MasaManfaat }} th</td>
-                <td>{{ $aset->TanggalPerolehan }}</td>
                 <td>{{ $aset->user->name ?? '-' }}</td>
             </tr>
             @endforeach

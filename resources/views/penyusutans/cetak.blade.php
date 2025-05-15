@@ -70,6 +70,7 @@
                 <th>No</th>
                 <th>Nama Aset</th>
                 <th>Kode Aset</th>
+                <th>Qty</th>
                 <th>Tahun Penyusutan</th>
                 <th>Nilai Awal</th>
                 <th>Penyusutan Tahunan</th>
@@ -82,6 +83,7 @@
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $item->aset->NamaAset ?? '-' }}</td>
                 <td>{{ $item->aset->KodeAset ?? '-' }}</td>
+                <td>{{ $item->aset->Kuantitas ?? '-' }}</td>
                 <td>{{ $item->TahunPenyusutan }}</td>
                 <td class="currency">Rp {{ number_format($item->NilaiAwal, 0, ',', '.') }}</td>
                 <td class="currency">Rp {{ number_format($item->PenyusutanTahunan, 0, ',', '.') }}</td>

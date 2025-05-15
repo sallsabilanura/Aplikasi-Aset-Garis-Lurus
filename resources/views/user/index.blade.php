@@ -8,7 +8,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar Pengguna</title>
-    <!-- Link ke Bootstrap CSS -->
     <style>
         body {
             background-color: #f8f9fa;
@@ -33,16 +32,31 @@
 
         .table th {
             color: white !important;
-            /* Memastikan teks header menjadi putih dengan prioritas tinggi */
         }
 
         .table tbody td {
             color: #555;
-            /* Menjaga warna teks di tubuh tabel tetap gelap untuk keterbacaan */
         }
 
         h1 {
             color: #555;
+        }
+
+        .form-status select {
+            padding: 5px 10px;
+        }
+
+        .form-status button {
+            padding: 6px 12px;
+            background-color: #696cff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-status button:hover {
+            background-color: #555;
         }
     </style>
 </head>
@@ -55,14 +69,14 @@
             <!-- Tabel Pengguna -->
             <div class="table-responsive">
                 <table class="table table-bordered">
-
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>Nama Pengguna</th>
                             <th>Email</th>
                             <th>Role</th>
-                            <th>Tanggal Daftar</th> <!-- Kolom Tanggal Daftar -->
+                            <th>Tanggal Daftar</th>
+                            <th>Update Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -72,7 +86,34 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->role }}</td>
-                            <td>{{ $user->created_at->format('d-m-Y') }}</td> <!-- Menampilkan Tanggal Daftar -->
+                            <td>{{ $user->created_at->format('d-m-Y') }}</td>
+                            <td>
+                                <!-- Form untuk Update Status -->
+                                <form action="{{ route('users.updateStatus', $user->id) }}" method="POST" class="form-status">
+    @csrf
+    @method('PUT')
+    
+    <div class="mb-3">
+        <label for="status" class="form-label">Pilih Status Pengguna</label>
+        <select name="Status" id="status" class="form-select">
+            <option value="Aktif" {{ $user->Status == 'Aktif' ? 'selected' : '' }}>Aktif</option>
+            <option value="Nonaktif" {{ $user->Status == 'Nonaktif' ? 'selected' : '' }}>Nonaktif</option>
+        </select>
+    </div>
+
+    <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary">Update Status</button>
+    </div>
+</form>
+
+<form action="{{ route('users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus pengguna ini beserta semua datanya?');">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="btn btn-danger mt-2">Hapus</button>
+</form>
+
+
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -80,9 +121,30 @@
             </div>
         </div>
     </div>
-
-    <!-- Optional Bootstrap JS (for features like modals or dropdowns) -->
 </body>
 
 </html>
 @endsection
+<style>
+    .form-status {
+        max-width: 400px;
+        margin: 20px auto;
+    }
+
+    .form-select {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+        padding: 8px 20px;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+</style>
+

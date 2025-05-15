@@ -60,10 +60,23 @@
 <li class="menu-header small text-uppercase">
     <span class="menu-header-text">Aplikasi</span>
 </li>
+
+<li class="menu-item">
+    <a href="/panduan" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-user"></i>
+        <div data-i18n="Basic">Panduan</div>
+    </a>
+</li>
 <li class="menu-item">
     <a href="/testimonials" class="menu-link">
         <i class="menu-icon tf-icons bx bx-star"></i>
         <div data-i18n="Basic">Rating Aplikasi dari Pengguna</div>
+    </a>
+</li>
+<li class="menu-item">
+    <a href="/panduan" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-star"></i>
+        <div data-i18n="Basic">Panduan</div>
     </a>
 </li>
 <li class="menu-item">
@@ -121,6 +134,12 @@
 <!-- Menu Pages -->
 <li class="menu-header small text-uppercase">
     <span class="menu-header-text">Aplikasi</span>
+</li>
+<li class="menu-item">
+    <a href="/panduan" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-user"></i>
+        <div data-i18n="Basic">Panduan</div>
+    </a>
 </li>
 <li class="menu-item">
     <a href="/testimonials" class="menu-link">

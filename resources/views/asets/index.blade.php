@@ -80,6 +80,9 @@
                                 <th>Nama Aset</th>
                                 <th>Kode Aset</th>
                                 <th>Kategori</th>
+                                <th>Dana</th>
+                                <th>Kuantitas</th>
+                                <th>Program</th>
                                 <th>Nilai Perolehan</th>
                                 <th>Nilai Residu</th>
                                 <th>Masa Manfaat</th>
@@ -97,6 +100,9 @@
                                 <td>{{ $aset->NamaAset }}</td>
                                 <td>{{ $aset->KodeAset }}</td>
                                 <td>{{ $aset->kategori->NamaKategori ?? 'Tidak ada kategori' }}</td>
+                                <td>{{ $aset->Dana }}</td>
+                                <td>{{ $aset->Kuantitas }}</td>
+                                <td>{{ $aset->Program }}</td>
                                 <td>Rp {{ number_format($aset->NilaiPerolehan, 0, ',', '.') }}</td>
                                 <td>Rp {{ number_format($aset->NilaiResidu, 0, ',', '.') }}</td>
                                 <td>{{ $aset->MasaManfaat }}</td>

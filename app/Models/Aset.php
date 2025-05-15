@@ -10,7 +10,7 @@ class Aset extends Model
     use HasFactory;
 
     protected $primaryKey ='AsetID';
-    protected $fillable =['KategoriID', 'user_id', 'NamaAset', 'KodeAset',  'NilaiPerolehan', 'NilaiResidu', 'MasaManfaat', 'TanggalPerolehan', 'LokasiAset', 'Status'];
+    protected $fillable =['KategoriID', 'user_id', 'NamaAset','Dana', 'Kuantitas', 'Program', 'KodeAset',  'NilaiPerolehan', 'NilaiResidu', 'MasaManfaat', 'TanggalPerolehan', 'LokasiAset', 'Status'];
     protected $table ='asets';
 
     public function kategori()
@@ -26,4 +26,5 @@ class Aset extends Model
     {
         return $this->belongsTo(User::class);
     }
+
 }

@@ -144,6 +144,12 @@
             <img src="{{ asset('images/bagrone.png') }}" alt="Logo" class="logo">
         </div>
         <div class="form-section">
+
+        @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
             <h3>Sign In</h3>
             <form method="POST" action="{{ route('login') }}">
                 @csrf

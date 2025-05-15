@@ -19,6 +19,9 @@ class CreateAsetsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('NamaAset');
             $table->string('KodeAset');
+            $table->string('Dana');
+            $table->string('Kuantitas');
+            $table->string('Program');
             $table->decimal('NilaiPerolehan', 15,2);
             $table->decimal('NilaiResidu', 15,2);
             $table->string('MasaManfaat');

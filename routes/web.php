@@ -64,7 +64,13 @@ Route::get('/kontak', function () {
     return view('contact');
 });
 
+Route::get('/panduan', function () {
+    return view('panduan');
+});
 Route::get('/asets/export/pdf', [AsetController::class, 'exportPDF'])->name('asets.exportPDF');
 Route::get('/penyusutans/cetak', [PenyusutanController::class, 'cetak'])->name('penyusutans.cetak');
 
 route::resource('penyusutans', PenyusutanController::class);
+Route::put('/users/{id}/update-status', [UserController::class, 'updateStatus'])->name('users.updateStatus');
+Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+Route::get('/asets/export-excel', [AsetController::class, 'exportExcel'])->name('asets.exportExcel');

@@ -61,6 +61,18 @@
                         </div>
                     </div>
 
+                    <div class="mb-3">
+                        <label for="Dana" class="form-label">Dana Dari:</label>
+                        <input type="text" id="Dana" name="Dana" class="form-control" value="{{ old('Dana') }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Kuantitas" class="form-label">QTY:</label>
+                        <input type="text" id="Kuantitas" name="Kuantitas" class="form-control" value="{{ old('Kuantitas') }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Program" class="form-label">Program:</label>
+                        <input type="text" id="Program" name="Program" class="form-control" value="{{ old('Program') }}" required>
+                    </div>
 
                     <div class="mb-3">
                         <label for="TanggalPerolehan" class="form-label">Tanggal Perolehan:</label>

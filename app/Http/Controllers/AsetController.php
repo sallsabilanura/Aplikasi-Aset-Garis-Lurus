@@ -164,6 +164,9 @@ public function penghapusan(Request $request)
             'NamaAset' => 'required|string|max:255',
             'KodeAset' => 'required|string|max:255|unique:asets,KodeAset',
             'KategoriID' => 'required|exists:kategori_asets,KategoriID',
+            'Dana' => 'required|string|max:255',
+            'Kuantitas' => 'required|string|max:255',
+            'Program' => 'required|string|max:255',
             'NilaiPerolehan' => 'required|numeric|min:0|max:999999999999.99', // Nilai masuk akal
             'NilaiResidu' => 'required|numeric|min:0|max:999999999999.99', // Sama seperti di atas
             'MasaManfaat' => 'required|string|max:255',
@@ -176,6 +179,9 @@ public function penghapusan(Request $request)
         // Menyimpan data aset
         Aset::create([
             'NamaAset' => $request->NamaAset,
+            'Dana' => $request->Dana,
+            'Kuantitas' => $request->Kuantitas,
+            'Program' => $request->Program,
             'KodeAset' => $request->KodeAset,
             'KategoriID' => $request->KategoriID,
             'NilaiPerolehan' => $request->NilaiPerolehan,

@@ -17,6 +17,18 @@ class UserController extends Controller
         return view('user.index', compact('users'));
     }
 
+    public function destroy($id)
+{
+    $user = User::findOrFail($id);
+
+   
+
+    // Setelah semua relasi dihapus, hapus user
+    $user->delete();
+
+    return redirect()->back()->with('success', 'Pengguna dan seluruh data terkait berhasil dihapus.');
+}
+
 public function showUserChart()
 {
     // Mendapatkan jumlah pengguna yang mendaftar per hari dalam 30 hari terakhir
@@ -66,5 +78,15 @@ public function showProfile()
 
     return back()->with('success', 'Profil berhasil diperbarui!');
 }
+
+public function updateStatus(Request $request, $id)
+{
+    $user = User::findOrFail($id); // Mencari pengguna berdasarkan ID
+    $user->Status = $request->input('Status'); // Mengubah status
+    $user->save(); // Menyimpan perubahan
+
+    return redirect()->back()->with('success', 'Status akun berhasil diupdate');
+}
+
 
 }
