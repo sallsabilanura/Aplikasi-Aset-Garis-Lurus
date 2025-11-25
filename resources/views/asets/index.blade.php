@@ -18,19 +18,48 @@
         <h1 class="text-center mb-4">Daftar Aset</h1>
 
         <!-- Success Message -->
-        @if(session('success'))
-        <div class="alert alert-success mb-4">
-            {{ session('success') }}
-        </div>
-        @endif
+       @if(session('success'))
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ session('success') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+@endif
 
-  <div class="card shadow-sm mb-4">
+
+<div class="card shadow-sm mb-4">
     <div class="card-body">
         <form method="GET" action="{{ route('asets.index') }}">
             <div class="row g-2 align-items-center">
+
                 <!-- Input Cari -->
                 <div class="col-md-3">
-                    <input type="text" name="search" class="form-control" placeholder="Cari Aset" value="{{ request('search') }}">
+                    <input type="text" name="search" class="form-control"
+                           placeholder="Cari Aset..." value="{{ request('search') }}">
+                </div>
+
+                <!-- Dropdown Kategori -->
+                <div class="col-md-3">
+                    <select name="kategori" class="form-select">
+                        <option value="">Pilih Kategori</option>
+                        @foreach ($kategori as $kategoriOption)
+                            <option value="{{ $kategoriOption->KategoriID }}"
+                                {{ request('kategori') == $kategoriOption->KategoriID ? 'selected' : '' }}>
+                                {{ $kategoriOption->NamaKategori }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- Filter Tahun -->
+                <div class="col-md-2">
+                    <select name="tahun" class="form-select">
+                        <option value="">Semua Tahun</option>
+                        @for ($tahun = date('Y'); $tahun >= 2020; $tahun--)
+                            <option value="{{ $tahun }}" {{ request('tahun') == $tahun ? 'selected' : '' }}>
+                                {{ $tahun }}
+                            </option>
+                        @endfor
+                    </select>
                 </div>
 
                 <!-- Tombol Cari -->
@@ -41,28 +70,41 @@
                 <!-- Tombol Tambah Aset -->
                 @if(auth()->user()->role == 'Instansi')
                     <div class="col-auto">
-                        <a href="{{ route('asets.create') }}" class="btn btn-primary">Tambah Aset</a>
+                        <a href="{{ route('asets.create') }}" class="btn btn-primary">Tambah</a>
                     </div>
                 @endif
 
-                <!-- Dropdown Kategori (lebih panjang) -->
-                <div class="col-md-4">
-                    <select name="kategori" class="form-select" required>
-                        <option value="">Pilih Kategori</option>
-                        @foreach ($kategori as $kategoriOption)
-                            <option value="{{ $kategoriOption->KategoriID }}" {{ request('kategori') == $kategoriOption->KategoriID ? 'selected' : '' }}>
-                                {{ $kategoriOption->NamaKategori }}
-                            </option>
-                        @endforeach
-                    </select>
+                <!-- Export -->
+                <div class="col-auto d-flex gap-2 align-items-center">
+
+                    <!-- Tombol Export PDF -->
+                    <a href="{{ route('asets.exportPDF', ['kategori' => request('kategori'), 'tahun' => request('tahun')]) }}"
+                       class="btn btn-outline-danger shadow-sm d-flex align-items-center justify-content-center"
+                       title="Export PDF" style="width:45px;height:38px;">
+                        <i class="fas fa-file-pdf fa-lg"></i>
+                    </a>
+
+                    <!-- Tombol Export Excel -->
+                    <a href="{{ route('asets.exportExcel', ['kategori' => request('kategori'), 'tahun' => request('tahun')]) }}"
+                       class="btn btn-outline-success shadow-sm d-flex align-items-center justify-content-center"
+                       title="Export Excel" style="width:45px;height:38px;">
+                        <i class="fas fa-file-excel fa-lg"></i>
+                    </a>
+
                 </div>
 
-                <!-- Tombol Export PDF -->
-                <div class="col-auto">
-                    <a href="{{ route('asets.exportPDF') }}" class="btn btn-danger">
-                        <i class="fas fa-file-pdf"></i> Export PDF
-                    </a>
-                </div>
+
+<script>
+    // Tooltip Bootstrap (biar muncul saat hover)
+    document.addEventListener('DOMContentLoaded', function () {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
+</script>
+
+
             </div>
         </form>
     </div>
@@ -82,12 +124,12 @@
                                 <th>Kategori</th>
                                 <th>Dana</th>
                                 <th>Kuantitas</th>
-                                <th>Program</th>
                                 <th>Nilai Perolehan</th>
                                 <th>Nilai Residu</th>
                                 <th>Masa Manfaat</th>
                                 <th>Tanggal Perolehan</th>
                                 <th>Status</th>
+                                <th>Keterangan</th>
                                 <th>Lokasi Aset</th>
                                 <th>Nama Instansi</th>
                                 <th>Aksi</th>
@@ -102,7 +144,6 @@
                                 <td>{{ $aset->kategori->NamaKategori ?? 'Tidak ada kategori' }}</td>
                                 <td>{{ $aset->Dana }}</td>
                                 <td>{{ $aset->Kuantitas }}</td>
-                                <td>{{ $aset->Program }}</td>
                                 <td>Rp {{ number_format($aset->NilaiPerolehan, 0, ',', '.') }}</td>
                                 <td>Rp {{ number_format($aset->NilaiResidu, 0, ',', '.') }}</td>
                                 <td>{{ $aset->MasaManfaat }}</td>
@@ -115,6 +156,7 @@
                                     </span>
                                 </td>
 
+                                <td>{{ $aset->Program }}</td>
 
                                 <td>
                                     <form action="{{ route('asets.updateLocation', $aset->AsetID) }}" method="POST" class="d-inline">
@@ -130,7 +172,7 @@
                                 <td>{{ $aset->user->name ?? 'Tidak Diketahui' }}</td>
 
                                 <td>
-                                    <a href="{{ route('asets.show', $aset->AsetID) }}" class="btn btn-info btn-sm" title="Lihat Detail">
+                                    <a href="{{ route('asets.show', $aset->AsetID) }}" class="btn btn-primary btn-sm mb-1" title="Lihat Detail">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                     <a href="{{ route('asets.edit', $aset->AsetID) }}" class="btn btn-warning btn-sm" title="Edit">

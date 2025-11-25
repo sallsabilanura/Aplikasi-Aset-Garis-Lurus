@@ -69,10 +69,6 @@
                         <label for="Kuantitas" class="form-label">QTY:</label>
                         <input type="text" id="Kuantitas" name="Kuantitas" class="form-control" value="{{ old('Kuantitas') }}" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="Program" class="form-label">Program:</label>
-                        <input type="text" id="Program" name="Program" class="form-control" value="{{ old('Program') }}" required>
-                    </div>
 
                     <div class="mb-3">
                         <label for="TanggalPerolehan" class="form-label">Tanggal Perolehan:</label>
@@ -80,7 +76,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="LokasiAset" class="form-label">Lokasi Aset:</label>
+                        <label for="LokasiAset" class="form-label">Lokasi Tempat Aset:</label>
                         <input type="text" id="LokasiAset" name="LokasiAset" class="form-control" value="{{ old('LokasiAset') }}" required>
                     </div>
                     <div class="mb-3">
@@ -101,7 +97,10 @@
                             @endforeach
                         </select>
                     </div>
-
+  <div class="mb-3">
+                        <label for="Program" class="form-label">Keterangan:</label>
+                        <input type="text" id="Program" name="Program" class="form-control" value="{{ old('Program') }}" required>
+                    </div>
 
 
 

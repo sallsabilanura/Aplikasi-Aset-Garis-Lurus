@@ -41,18 +41,23 @@
     <select name="AsetID" id="AsetID" class="form-select" required>
         <option value="" data-tanggal="" data-nilai="" data-residu="" data-manfaat="" data-kode="" data-kuantitas="">-- Pilih Aset --</option>
         @foreach ($asets as $aset)
-        <option value="{{ $aset->AsetID }}"
-            data-tanggal="{{ $aset->TanggalPerolehan }}"
-            data-nilai="{{ $aset->NilaiPerolehan }}"
-            data-residu="{{ $aset->NilaiResidu }}"
-            data-manfaat="{{ $aset->MasaManfaat }}"
-            data-kode="{{ $aset->KodeAset }}"
-            data-kuantitas="{{ $aset->Kuantitas }}">
-            
-            {{ $aset->NamaAset }} - Kuantitas {{ $aset->Kuantitas }}
-        </option>
+       <option value="{{ $aset->AsetID }}"
+    data-tanggal="{{ $aset->TanggalPerolehan }}"
+    data-nilai="{{ $aset->NilaiPerolehan }}"
+    data-residu="{{ $aset->NilaiResidu }}"
+    data-manfaat="{{ $aset->MasaManfaat }}"
+    data-kode="{{ $aset->KodeAset }}"
+    data-kuantitas="{{ $aset->Kuantitas }}">
+    
+    {{ $aset->NamaAset }}
+</option>
+
         @endforeach
     </select>
+</div>
+<div class="form-group mb-3">
+    <label for="Kuantitas">Kuantitas</label>
+    <input type="number" name="Kuantitas" id="Kuantitas" class="form-control" readonly>
 </div>
 
 
@@ -61,6 +66,7 @@
                         <label for="KodeAset">Kode Aset</label>
                         <input type="text" name="KodeAset" id="KodeAset" class="form-control" readonly>
                     </div>
+                    
 
                     <div class="form-group mb-3">
                         <label for="TahunPenyusutan">Tahun Penyusutan</label>
@@ -109,6 +115,13 @@
             const nilaiResidu = selectedOption.getAttribute('data-residu');
             const masaManfaat = selectedOption.getAttribute('data-manfaat');
             const kodeAset = selectedOption.getAttribute('data-kode'); // Ambil data-kode dengan benar
+            const kuantitas = selectedOption.getAttribute('data-kuantitas');
+if (kuantitas) {
+    document.getElementById('Kuantitas').value = kuantitas;
+} else {
+    document.getElementById('Kuantitas').value = '';
+}
+
 
             // Isi Tahun Penyusutan
             if (tanggalPerolehan) {
@@ -161,6 +174,8 @@
                 document.getElementById('KodeAset').value = '';
             }
         });
+       
+
 
         // Menghitung Tahun Penyusutan Akhir ketika Masa Manfaat diubah
         document.getElementById('MasaManfaat').addEventListener('input', function() {

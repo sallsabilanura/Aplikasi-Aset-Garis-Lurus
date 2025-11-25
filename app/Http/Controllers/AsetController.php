@@ -8,6 +8,9 @@ use App\Models\User;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Http\Request;     
 use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\AsetExport;
+
 
 
 
@@ -21,26 +24,31 @@ class AsetController extends Controller
      */
 
 
+
      public function exportPDF(Request $request)
 {
-    $kategoriId = $request->input('kategori'); // Ambil kategori yang dipilih
+    $kategoriId = $request->input('kategori');
+    $tahun = $request->input('tahun');
 
-    // Mengambil aset berdasarkan kategori yang dipilih, atau semua aset jika tidak ada kategori yang dipilih
     $asets = Aset::query();
 
     if ($kategoriId) {
-        // Filter berdasarkan kategori yang dipilih
-        $asets = $asets->where('KategoriID', $kategoriId);
+        $asets->where('KategoriID', $kategoriId);
     }
 
-    // Ambil data aset bersama kategori dan user
-    $asets = $asets->with(['kategori', 'user'])->get();
+    if ($tahun) {
+        $asets->whereYear('TanggalPerolehan', $tahun);
+    }
 
-    // Load view dan generate PDF
-    $pdf = Pdf::loadView('asets.pdf', compact('asets'));
+    // Ambil data + relasi foto
+    $asets = $asets->with(['kategori', 'user', 'barang.lokasis'])->get();
+
+    $pdf = Pdf::loadView('asets.pdf', compact('asets'))
+              ->setPaper('a4', 'landscape');
 
     return $pdf->download('daftar_aset.pdf');
 }
+
 
      
 public function index(Request $request)
@@ -70,6 +78,10 @@ public function index(Request $request)
             }
         });
     }
+// Filter berdasarkan tahun
+if ($request->filled('tahun')) {
+    $query->whereYear('TanggalPerolehan', $request->input('tahun'));
+}
 
     // Filter berdasarkan instansi (khusus admin)
     if (auth()->user()->role == 'Admin' && $request->filled('instansi')) {
@@ -336,5 +348,11 @@ public function penghapusan(Request $request)
         ]);
     }
  
+public function exportExcel(Request $request)
+{
+    $kategoriId = $request->input('kategori');
+
+    return Excel::download(new AsetExport($request->kategori, $request->tahun), 'daftar_aset.xlsx');
+}
 
 }

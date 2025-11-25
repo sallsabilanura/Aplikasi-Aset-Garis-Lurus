@@ -14,23 +14,21 @@
         <h1 class="text-center mb-4">Kategori Aset</h1>
 
         <!-- Tombol Tambah Kategori Aset -->
-        <div class="card shadow-sm mb-4">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <!-- Form Pencarian di sebelah kiri -->
-                    <form method="GET" action="{{ route('kategoris.index') }}" class="d-flex">
-                        <input type="text" name="search" class="form-control w-75" placeholder="Cari Kategori Aset" value="{{ request('search') }}">
-                        <button class="btn btn-primary ms-2" type="submit">Cari</button>
-                    </form>
-
+        <div class="card shadow-sm border-0 mb-4">
+    <div class="card-body py-3">
+        <form method="GET" action="{{ route('kategoris.index') }}" class="d-flex gap-2">
+            <input type="text" name="search" class="form-control" 
+                   placeholder="Cari kategori aset..." value="{{ request('search') }}">
+            <button class="btn btn-primary ms-2" type="submit">Cari</button>
+        
                     <!-- Tombol Tambah Kategori Aset di sebelah kanan -->
                     @if(auth()->user()->role == 'Instansi')
     <a href="{{ route('kategoris.create') }}" class="btn btn-primary">Tambah Kategori Aset</a>
 @endif
+        </form>
                 </div>
             </div>
-        </div>
-
+        
         <!-- Pesan Sukses -->
         @if(session('success'))
         <div class="alert alert-success mb-4" id="success-alert">
@@ -53,33 +51,37 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($kategori as $kategori)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $kategori->NamaKategori }}</td>
-                                    <td>{{ $kategori->Deskripsi }}</td>
-                                    <td>{{ $kategori->user->name ?? 'Tidak Diketahui' }}</td>
-                                    <td>
-                                        <a href="{{ route('kategoris.edit', $kategori->KategoriID) }}" class="btn btn-warning btn-sm" title="Edit Kategori">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
+    @foreach ($kategori as $item)
+        <tr>
+            <td>{{ $loop->iteration }}</td>
+            <td>{{ $item->NamaKategori }}</td>
+            <td>{{ $item->Deskripsi }}</td>
+            <td>{{ $item->user->name ?? 'Tidak Diketahui' }}</td>
+            <td>
+                <a href="{{ route('kategoris.edit', $item->KategoriID) }}" class="btn btn-warning btn-sm">
+                    <i class="fas fa-edit"></i>
+                </a>
 
-                                        <form action="{{ route('kategoris.destroy', $kategori->KategoriID) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus kategori ini?');">
-                                                           
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm" title="Hapus Kategori">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
+                <form action="{{ route('kategoris.destroy', $item->KategoriID) }}" method="POST" class="d-inline" 
+                      onsubmit="return confirm('Apakah Anda yakin ingin menghapus kategori ini?');">
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger btn-sm">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+    @endforeach
+</tbody>
+
                     </table>
                 </div>
             </div>
         </div>
     </div>
+ <div class="d-flex justify-content-center">
+                        {{ $kategori->links('pagination::simple-bootstrap-4') }}
+                    </div>
 
     <!-- Tambahkan JavaScript Bootstrap -->
     <script>

@@ -6,6 +6,7 @@ use App\Http\Controllers\PenghapusanAsetController;
 use App\Http\Controllers\PenyusutanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\BarangController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\UserController;
@@ -34,7 +35,8 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
-
+Route::get('/asets/export-excel', [AsetController::class, 'exportExcel'])->name('asets.exportExcel');
+Route::get('/asets/export/pdf', [AsetController::class, 'exportPDF'])->name('asets.exportPDF');
 Route::resource('asets', AsetController::class);
 Route::resource('users', UserController::class);
 Route::resource('kategoris', KategoriAsetController::class);
@@ -67,10 +69,26 @@ Route::get('/kontak', function () {
 Route::get('/panduan', function () {
     return view('panduan');
 });
-Route::get('/asets/export/pdf', [AsetController::class, 'exportPDF'])->name('asets.exportPDF');
-Route::get('/penyusutans/cetak', [PenyusutanController::class, 'cetak'])->name('penyusutans.cetak');
 
+Route::get('/penyusutans/cetak', [PenyusutanController::class, 'cetak'])->name('penyusutans.cetak');
+Route::get('/penyusutans/export-excel', [PenyusutanController::class, 'exportExcel'])->name('penyusutans.export-excel');
+Route::get('/penyusutans/{id}/export-pdf', [PenyusutanController::class, 'exportPdfShow'])
+     ->name('penyusutans.exportPdfShow');
 route::resource('penyusutans', PenyusutanController::class);
 Route::put('/users/{id}/update-status', [UserController::class, 'updateStatus'])->name('users.updateStatus');
 Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 Route::get('/asets/export-excel', [AsetController::class, 'exportExcel'])->name('asets.exportExcel');
+Route::get('/barangs/export-excel', [BarangController::class, 'exportExcel'])->name('barangs.exportExcel');
+Route::get('/barangs/export-pdf', [BarangController::class, 'exportPDF'])->name('barangs.exportPDF');
+Route::resource('barangs', BarangController::class);
+Route::get('/barangs/{id}/export-pdf-show', [BarangController::class, 'exportPdfShow'])->name('barangs.exportPdfShow');
+
+use Illuminate\Support\Facades\Mail;
+
+Route::get('/test-email', function () {
+    Mail::raw('Test email OK', function ($msg) {
+        $msg->to('test@mailtrap.io')->subject('Coba Kirim');
+    });
+
+    return 'Email sudah dikirim (kalau Mailtrap benar).';
+});

@@ -10,7 +10,7 @@
             <div class="d-flex align-items-end row">
               <div class="col-sm-8">
                 <div class="card-body">
-                  <h5 class="card-title text-primary text-end">Halo {{ auth()->user()->name }}! Selamat datang di Aplikasi Manajemen Aset Kamu 🎉</h5>
+                  <h5 class="card-title text-primary text-end">Halo {{ auth()->user()->name }}! Selamat datang di Dashboard Manajemen Aset Rumah Jeda/h5>
                   <p class="mb-4 text-end">Lihatlah perkembangan <span class="fw-bold">AsetMu</span> Disini</p>
                   <div class="text-end">
                     <a href="{{ route('asets.index') }}" class="btn btn-sm btn-outline-primary">Lihat Aset</a>
@@ -144,16 +144,22 @@
           <div class="card shadow-lg">
             <div class="d-flex align-items-center row">
               <div class="col-sm-8">
-                <div class="card-body">
-                  <h5 class="card-title text-primary text-end">
-                    Halo {{ auth()->user()->name }}! Selamat datang di Aplikasi Manajemen Aset Kamu 🎉
-                  </h5>
-                  <p class="mb-4 text-end">Kelola <span class="fw-bold">AsetMu</span> dengan lebih mudah.</p>
-                  <div class="text-end">
-                    <a href="{{ route('asets.index') }}" class="btn btn-sm btn-outline-primary">Lihat Aset</a>
-                  </div>
-                </div>
-              </div>
+               <div class="card-body text-end">
+    <h5 class="card-title text-primary mb-1">
+        Halo {{ auth()->user()->name }}! Selamat datang di Dashboard Manajemen Aset
+    </h5>
+
+    <p class="mb-3 text-muted">
+        Kelola <span class="fw-bold text-dark">AsetMu</span> dengan lebih mudah.
+    </p>
+
+    <a href="{{ route('asets.index') }}" class="btn btn-sm btn-outline-primary">
+        Lihat Aset
+    </a>
+</div>
+              
+          </div>
+
               <div class="col-sm-4 text-center">
                 <img src="../assets/img/illustrations/man-ya.png" height="180" alt="View Badge User">
               </div>
@@ -188,58 +194,80 @@
         </div>
       </div>
     </div>
+<style>
+  #chartAset {
+    height: 260px !important;
+  }
+</style>
 
     <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function() {
-        let ctx = document.getElementById('chartAset').getContext('2d');
-        let chartAset = new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: @json($asetStats -> keys()),
+   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const ctx = document.getElementById("chartAset").getContext("2d");
+
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: @json($asetStats->keys()),
             datasets: [{
-              label: 'Jumlah Aset',
-              data: @json($asetStats -> values()),
-              backgroundColor: 'rgb(122, 130, 241)',
-              borderColor: 'rgb(102, 111, 233)',
-              borderWidth: 2
+                label: "Jumlah Aset",
+                data: @json($asetStats->values()),
+                backgroundColor: "rgba(103, 118, 255, 0.8)",   // soft indigo
+                borderRadius: 8,                                // rounded bar
+                maxBarThickness: 40,
             }]
-          },
-          options: {
+        },
+        options: {
             responsive: true,
+            maintainAspectRatio: false,
             plugins: {
-              legend: {
-                display: false
-              }
+                legend: { display: false },
+
+                tooltip: {
+                    backgroundColor: "rgba(30, 32, 60, 0.9)",
+                    titleFont: { size: 13, weight: "600" },
+                    bodyFont: { size: 12 },
+                    padding: 10,
+                    borderWidth: 0,
+                    cornerRadius: 8,
+                    displayColors: false
+                }
             },
+
             scales: {
-              x: {
-                ticks: {
-                  color: '#555',
-                  font: {
-                    size: 13
-                  }
+                x: {
+                    ticks: {
+                        color: "#555",
+                        font: { size: 12 }
+                    },
+                    grid: {
+                        display: false   // clean look
+                    }
                 },
-                grid: {
-                  color: 'rgba(200, 200, 200, 0.2)'
+
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: "#666",
+                        font: { size: 12 },
+                        padding: 8
+                    },
+                    grid: {
+                        color: "rgba(200, 200, 200, 0.15)" // soft grid
+                    },
+                    border: { display: false }
                 }
-              },
-              y: {
-                beginAtZero: true,
-                ticks: {
-                  color: '#555',
-                  font: {
-                    size: 13
-                  }
-                },
-                grid: {
-                  color: 'rgba(200, 200, 200, 0.2)'
-                }
-              }
+            },
+
+            layout: {
+                padding: 10
             }
-          }
-        });
+        }
+        
+    });
+
 
         // Update data setiap 5 detik
         setInterval(() => {

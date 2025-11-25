@@ -60,14 +60,41 @@
                         <a href="{{ route('penyusutans.create') }}" class="btn btn-primary">Tambah Aset</a>
                     </div>
                 @endif
-                    <!-- Tombol Aksi -->
-                    <div class="col-md-2 d-flex gap-2">
-                        <button class="btn btn-primary w-100" type="submit">Cari</button>
-                        <a href="{{ route('penyusutans.cetak', ['TahunPenyusutan' => request('TahunPenyusutan')]) }}" target="_blank" class="btn btn-success w-100">
-                            <i class="fas fa-print"></i> Cetak
-                        </a>
-                    </div>
-                </div>
+                   <!-- Tombol Aksi -->
+<div class="col-md-2 d-flex align-items-center gap-2">
+    <!-- Tombol Cari -->
+    <button class="btn btn-primary shadow-sm d-flex align-items-center justify-content-center" type="submit" style="height: 40px;">
+                        <i class="fas fa-search me-1"></i> Cari
+                    </button>
+
+    <!-- Tombol Cetak -->
+    <a href="{{ route('penyusutans.cetak', ['TahunPenyusutan' => request('TahunPenyusutan')]) }}" 
+       target="_blank"
+       class="btn btn-outline-danger shadow-sm d-flex align-items-center justify-content-center"
+       data-bs-toggle="tooltip" data-bs-placement="top" title="Cetak PDF"
+       style="width: 45px; height: 38px;">
+        <i class="fas fa-file-pdf fa-lg"></i>
+    </a>
+
+    <!-- Tombol Export Excel -->
+    <a href="{{ route('penyusutans.export-excel', ['TahunPenyusutan' => request('TahunPenyusutan')]) }}" 
+       class="btn btn-outline-success shadow-sm d-flex align-items-center justify-content-center"
+       data-bs-toggle="tooltip" data-bs-placement="top" title="Export ke Excel"
+       style="width: 45px; height: 38px;">
+        <i class="fas fa-file-excel fa-lg"></i>
+    </a>
+</div>
+
+<script>
+    // Tooltip Bootstrap biar muncul saat hover
+    document.addEventListener('DOMContentLoaded', function () {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
+</script>
+
             </form>
      
 
@@ -89,10 +116,10 @@
                             <th>No</th>
                             <th>Aset</th>
                             <th>Kode Aset</th>
-                            <th>Tahun Penyusutan</th>
+                            <th>Tahun Perolehan</th>
                             <th>Masa Manfaat (Tahun)</th>
                             <th>Tahun Akhir Penyusutan</th>
-                            <th>Nilai Awal</th>
+                            <th>Nilai Perolehan</th>
                             <th>Penyusutan Tahunan</th>
                             <th>Nilai Akhir</th>
                             <th>Nama Instansi</th>
@@ -119,7 +146,7 @@
                             <td>Rp {{ number_format($penyusutan->NilaiAkhir, 0, ',', '.') }}</td>
                             <td>{{ $penyusutan->user->name ?? 'Tidak Diketahui' }}</td>
                             <td>
-                                <a href="{{ route('penyusutans.show', $penyusutan->PenyusutanID) }}" class="btn btn-info btn-sm" title="Detail">
+                                <a href="{{ route('penyusutans.show', $penyusutan->PenyusutanID) }}" class="btn btn-primary btn-sm mb-1" title="Detail">
                                     <i class="fas fa-eye"></i>
                                 </a>
                                 <a href="{{ route('penyusutans.edit', $penyusutan->PenyusutanID) }}" class="btn btn-warning btn-sm" title="Edit">

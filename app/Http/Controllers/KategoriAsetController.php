@@ -15,30 +15,34 @@ class KategoriAsetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
-        $user = auth()->user();
+  public function index(Request $request)
+{
+    $user = auth()->user();
+
+    // Query awal
+    $query = KategoriAset::query();
     
-        // Mulai query dengan filter user_id untuk 'Instansi'
-        $query = KategoriAset::query();
-        
-        if ($user->role === 'Instansi') {
-            $query->where('user_id', $user->id);
-        }
-    
-        // Filter pencarian jika ada
-        if ($request->has('search')) {
-            $search = $request->input('search');
-            $query->where('NamaKategori', 'like', "%$search%");
-        }
-    
-        // Urutkan berdasarkan yang terbaru
-        $kategori = $query->orderBy('created_at', 'desc')->get();
-        $user = User::all();
-    
-        // Kirim data ke view
-        return view('kategoris.index', compact('kategori', 'user'));
+    // Filter berdasarkan role Instansi
+    if ($user->role === 'Instansi') {
+        $query->where('user_id', $user->id);
     }
+
+    // Filter pencarian
+    if ($request->has('search')) {
+        $search = $request->input('search');
+        $query->where('NamaKategori', 'like', "%$search%");
+    }
+
+    // Paginate 30 data per halaman
+    $kategori = $query->orderBy('created_at', 'desc')
+                      ->paginate(30)
+                      ->withQueryString(); // penting agar search tidak hilang saat berpindah halaman
+
+    $user = User::all();
+
+    return view('kategoris.index', compact('kategori', 'user'));
+}
+
     
 
     /**

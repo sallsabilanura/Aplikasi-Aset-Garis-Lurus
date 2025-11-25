@@ -14,10 +14,12 @@
 
 <li class="menu-item">
     <a href="/users" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-user"></i>
+        <i class="menu-icon tf-icons bx bx-group"></i>
         <div data-i18n="Basic">Lihat User</div>
     </a>
 </li>
+
+
 
 
 
@@ -37,14 +39,19 @@
 
 <li class="menu-item">
     <a href="/asets" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-archive"></i>
+        <i class="menu-icon tf-icons bx bx-archive-in"></i>
         <div data-i18n="Basic">Data Aset</div>
     </a>
 </li>
-
+<li class="menu-item">
+    <a href="/barangs" class="menu-link">
+<i class="menu-icon tf-icons bx bx-map"></i>
+        <div data-i18n="Basic">Lokasi Aset</div>
+    </a>
+</li>
 <li class="menu-item">
     <a href="/penyusutans" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-wrench"></i>
+        <i class="menu-icon tf-icons bx bx-trending-down"></i>
         <div data-i18n="Basic">Penyusutan Aset</div>
     </a>
 </li>
@@ -63,7 +70,7 @@
 
 <li class="menu-item">
     <a href="/panduan" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-user"></i>
+        <i class="menu-icon tf-icons bx bx-group"></i>
         <div data-i18n="Basic">Panduan</div>
     </a>
 </li>
@@ -73,12 +80,7 @@
         <div data-i18n="Basic">Rating Aplikasi dari Pengguna</div>
     </a>
 </li>
-<li class="menu-item">
-    <a href="/panduan" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-star"></i>
-        <div data-i18n="Basic">Panduan</div>
-    </a>
-</li>
+
 <li class="menu-item">
     <a href="/kontak" class="menu-link">
         <i class="menu-icon tf-icons bx bx-envelope"></i>
@@ -114,14 +116,19 @@
 
 <li class="menu-item">
     <a href="/asets" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-archive"></i>
+        <i class="menu-icon tf-icons bx bx-archive-in"></i>
         <div data-i18n="Basic">Data Aset</div>
     </a>
 </li>
-
+<li class="menu-item">
+    <a href="/barangs" class="menu-link">
+       <i class="menu-icon tf-icons bx bx-map"></i>
+        <div data-i18n="Basic">Lokasi Aset</div>
+    </a>
+</li>
 <li class="menu-item">
     <a href="/penyusutans" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-wrench"></i>
+        <i class="menu-icon tf-icons bx bx-trending-down"></i>
         <div data-i18n="Basic">Penyusutan Aset</div>
     </a>
 </li>
@@ -137,13 +144,13 @@
 </li>
 <li class="menu-item">
     <a href="/panduan" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-user"></i>
+        <i class="menu-icon tf-icons bx bx-group"></i>
         <div data-i18n="Basic">Panduan</div>
     </a>
 </li>
 <li class="menu-item">
     <a href="/testimonials" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-star"></i>
+        <i class="menu-icon tf-icons bx bxs-star"></i>
         <div data-i18n="Basic">Beri Rating Aplikasi</div>
     </a>
 </li>

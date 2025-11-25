@@ -105,3 +105,82 @@
   text-align: center;
   margin-top: 1rem;
 }
+
+.menu-icon {
+    font-size: 1.1rem !important;
+    color: #64748B !important;
+    opacity: 0.9;
+}
+
+.menu-item.active .menu-icon {
+    color: #3B82F6 !important;
+    opacity: 1;
+}
+
+/* ======================
+   1. ICON STYLE
+====================== */
+.menu-icon {
+    font-size: 1.1rem !important;   /* ukuran icon lebih kecil */
+    color: #64748B !important;      /* slate 500 */
+    opacity: 0.9;
+    transition: 0.25s ease-in-out;
+}
+
+.menu-item.active .menu-icon {
+    color: #3B82F6 !important;      /* blue 500 */
+    opacity: 1;
+}
+
+/* ======================
+   2. TEXT STYLE
+====================== */
+.menu-link div {
+    font-size: 0.88rem;             /* lebih kecil supaya modern */
+    font-weight: 500;
+    color: #475569;                 /* slate 600 */
+    transition: 0.25s ease-in-out;
+}
+
+.menu-item.active .menu-link div {
+    color: #0F172A;                 /* slate 900 */
+}
+
+/* ======================
+   3. MENU HOVER
+====================== */
+.menu-item:hover .menu-link {
+    background-color: #F1F5F9 !important; /* slate 100 */
+    border-radius: 8px;
+}
+
+.menu-item:hover .menu-icon {
+    color: #475569 !important;
+    opacity: 1;
+}
+
+/* ======================
+   4. MENU HEADER
+====================== */
+.menu-header-text {
+    font-size: 0.72rem !important;
+    letter-spacing: 0.7px;
+    font-weight: 600;
+    color: #94A3B8 !important;     /* slate 400 */
+    margin-top: 18px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+/* ======================
+   5. SPACING RAPI & MODERN
+====================== */
+.menu-item .menu-link {
+    padding-top: 9px !important;
+    padding-bottom: 9px !important;
+    border-radius: 8px;
+}
+
+.menu-item {
+    margin-bottom: 3px; /* spacing antar item */
+}

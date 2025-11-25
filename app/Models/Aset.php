@@ -26,5 +26,14 @@ class Aset extends Model
     {
         return $this->belongsTo(User::class);
     }
+      public function barangs()
+    {
+        return $this->hasMany(Barang::class, 'AsetID');
+    }
+    public function barang()
+{
+    return $this->hasOne(Barang::class, 'AsetID', 'AsetID');
+}
+
 
 }
