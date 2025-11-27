@@ -60,6 +60,14 @@
                         <a href="{{ route('penyusutans.create') }}" class="btn btn-primary">Tambah Aset</a>
                     </div>
                 @endif
+                    <!-- Tombol Aksi -->
+                    <div class="col-md-2 d-flex gap-2">
+                        <button class="btn btn-primary w-100" type="submit">Cari</button>
+                        <a href="{{ route('penyusutans.cetak', ['TahunPenyusutan' => request('TahunPenyusutan')]) }}" target="_blank" class="btn btn-success w-100">
+                            <i class="fas fa-print"></i> Cetak
+                        </a>
+                    </div>
+                @endif
                    <!-- Tombol Aksi -->
 <div class="col-md-2 d-flex align-items-center gap-2">
     <!-- Tombol Cari -->

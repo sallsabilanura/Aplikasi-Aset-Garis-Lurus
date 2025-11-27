@@ -86,34 +86,7 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->role }}</td>
-                            <td>{{ $user->created_at->format('d-m-Y') }}</td>
-                            <td>
-                                <!-- Form untuk Update Status -->
-                                <form action="{{ route('users.updateStatus', $user->id) }}" method="POST" class="form-status">
-    @csrf
-    @method('PUT')
-    
-    <div class="mb-3">
-        <label for="status" class="form-label">Pilih Status Pengguna</label>
-        <select name="Status" id="status" class="form-select">
-            <option value="Aktif" {{ $user->Status == 'Aktif' ? 'selected' : '' }}>Aktif</option>
-            <option value="Nonaktif" {{ $user->Status == 'Nonaktif' ? 'selected' : '' }}>Nonaktif</option>
-        </select>
-    </div>
-
-    <div class="d-flex justify-content-end">
-        <button type="submit" class="btn btn-primary">Update Status</button>
-    </div>
-</form>
-
-<form action="{{ route('users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus pengguna ini beserta semua datanya?');">
-    @csrf
-    @method('DELETE')
-    <button type="submit" class="btn btn-danger mt-2">Hapus</button>
-</form>
-
-
-                            </td>
+                            <td>{{ $user->created_at->format('d-m-Y') }}</td> <!-- Menampilkan Tanggal Daftar -->
                         </tr>
                         @endforeach
                     </tbody>

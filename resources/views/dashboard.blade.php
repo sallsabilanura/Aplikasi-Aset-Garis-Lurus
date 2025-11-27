@@ -48,36 +48,79 @@
   </head>
 
   <body>
-    <div class="layout-wrapper layout-content-navbar">
-      <div class="layout-container">
-        <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
-          <div class="app-brand demo">
-            <a href="dashboard" class="app-brand-link">
-              <span class="app-brand-logo demo">
-                <img src="{{ asset('images/Asetme.png') }}" alt="Logo" width="150" height="50">
-              </span>
-            </a>
-          </div>
-          <ul class="menu-inner py-1">
-            @can('is-admin')
-              @include('layouts.sidebar')
-            @endcan
-            @can('is-instansi')
-              @include('layouts.sidebar')
-            @endcan
-          </ul>
-        </aside>
-        @include('layouts.navbar')
-        <div class="content-wrapper">
-          @yield('content')
-          @if(Request::is('dashboard') || Request::is('/'))
-            @include('layouts.content')
-          @endif
-          <div class="content-backdrop fade"></div>
+  <body>
+  <div id="loader" style="
+  position: fixed;
+  z-index: 9999;
+  background: transparent; /* Menggunakan transparansi */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.5s ease;
+">
+  <img src="{{ asset('images/Asetku.gif') }}" alt="Loading..." width="800">
+</div>
+
+<script>
+  window.addEventListener('load', function () {
+    const loader = document.getElementById('loader');
+    const main = document.querySelector('.layout-wrapper');
+
+    // Tahan loader selama 1 detik
+    setTimeout(() => {
+      loader.style.opacity = 0; // Mulai fade-out efek
+
+      // Setelah animasi fade-out selesai (0.5 detik), sembunyikan loader dan tampilkan konten utama
+      setTimeout(() => {
+        loader.style.display = 'none'; // Sembunyikan loader
+        main.style.opacity = 1; // Tampilkan konten utama
+      }, 500); // Durasi fade-out 0.5 detik
+    }, 1000); // Loader tetap tampil selama 1 detik
+  });
+</script>
+
+
+  {{-- Wrapper layout utama --}}
+  <div class="layout-wrapper layout-content-navbar" style="opacity: 0;">
+    <div class="layout-container">
+      <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+        <div class="app-brand demo">
+          <a href="dashboard" class="app-brand-link">
+            <span class="app-brand-logo demo">
+              <img src="{{ asset('images/Asetme.png') }}" alt="Logo" width="150" height="50">
+            </span>
+          </a>
         </div>
+        <ul class="menu-inner py-1">
+          @can('is-admin')
+            @include('layouts.sidebar')
+          @endcan
+          @can('is-instansi')
+            @include('layouts.sidebar')
+          @endcan
+        </ul>
+      </aside>
+
+      @include('layouts.navbar')
+
+      <div class="content-wrapper">
+        @yield('content')
+        @if(Request::is('dashboard') || Request::is('/'))
+          @include('layouts.content')
+        @endif
+        <div class="content-backdrop fade"></div>
       </div>
-      <div class="layout-overlay layout-menu-toggle"></div>
     </div>
+    <div class="layout-overlay layout-menu-toggle"></div>
+  </div>
+
+  {{-- Script untuk hilangkan loader --}}
+
+
 
     <!-- Core JS -->
     <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>

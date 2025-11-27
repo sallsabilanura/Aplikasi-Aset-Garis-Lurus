@@ -180,6 +180,10 @@
                 <div class="text-center mt-3">
                     <a href="{{ route('register') }}" class="btn btn-outline-primary w-100">Sign Up</a>
                 </div>
+                <a href="{{ url('login/google') }}" class="btn btn-danger">
+    Login dengan Google
+</a>
+
             </form>
         </div>
     </div>

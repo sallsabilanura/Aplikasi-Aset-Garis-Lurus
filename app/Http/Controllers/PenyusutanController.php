@@ -21,74 +21,8 @@ class PenyusutanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-  public function cetak(Request $request)
-{
-    $tahun = $request->input('TahunPenyusutan');
-
-    $penyusutan = Penyusutan::with(['aset', 'user'])
-        ->when($tahun, function ($query, $tahun) {
-            return $query->where('TahunPenyusutan', $tahun);
-        })
-        ->get();
-
-    $pdf = Pdf::loadView('penyusutans.cetak', compact('penyusutan', 'tahun'))
-              ->setPaper('a4', 'landscape'); // 🔹 Tambahkan baris ini
-
-    return $pdf->stream('laporan_penyusutan_' . $tahun . '.pdf');
-}
-
-public function exportPdfShow($id)
-{
-    $penyusutan = Penyusutan::with('aset')->findOrFail($id);
+ 
     
-    // Menghitung rincian penyusutan per tahun
-    $rincian = [];
-    $nilaiAwal = $penyusutan->NilaiAwal;
-    $nilaiResidu = $penyusutan->aset->NilaiResidu; // Ambil nilai residu dari aset
-    $penyusutanTahunan = $penyusutan->PenyusutanTahunan;
-    $masaManfaat = $penyusutan->aset->MasaManfaat; // Ambil masa manfaat dari aset
-    
-    for ($tahun = $penyusutan->TahunPenyusutan; $tahun < ($penyusutan->TahunPenyusutan + $masaManfaat); $tahun++) {
-        // Menghitung nilai akhir tahun setelah penyusutan
-        $nilaiAkhirTahun = $nilaiAwal - $penyusutanTahunan;
-
-        // Pastikan nilai akhir tidak kurang dari nilai residu
-        if ($nilaiAkhirTahun < $nilaiResidu) {
-            $nilaiAkhirTahun = $nilaiResidu;
-        }
-
-        // Menambahkan rincian penyusutan ke dalam array
-        $rincian[] = [
-            'tahun' => $tahun,
-            'nilai_awal' => $nilaiAwal,
-            'penyusutan' => $nilaiAwal > $nilaiResidu ? $penyusutanTahunan : 0,
-            'nilai_akhir' => $nilaiAkhirTahun
-        ];
-
-        // Jika nilai akhir sudah mencapai nilai residu, hentikan perhitungan
-        if ($nilaiAkhirTahun <= $nilaiResidu) {
-            break;
-        }
-
-        // Update nilai awal untuk iterasi berikutnya
-        $nilaiAwal = $nilaiAkhirTahun;
-    }
-
-    $pdf = \Pdf::loadView('penyusutans.export_pdf_show', compact('penyusutan', 'rincian'))
-              ->setPaper('a4', 'portrait');
-
-    return $pdf->stream('Detail_Penyusutan_' . ($penyusutan->aset->NamaAset ?? 'Aset') . '.pdf');
-}
-
-
-
-public function exportExcel(Request $request)
-{
-    $tahun = $request->input('TahunPenyusutan');
-
-    return Excel::download(new PenyusutanExport($tahun), 'laporan_penyusutan_' . ($tahun ?? 'semua') . '.xlsx');
-}
-
 
     public function index(Request $request)
     {
@@ -303,4 +237,79 @@ public function exportExcel(Request $request)
         return redirect()->route('penyusutans.index')->with('success', 'Data penyusutan berhasil dihapus!');
     }
     
+     public function cetak(Request $request)
+{
+    $tahun = $request->input('TahunPenyusutan');
+
+    $penyusutan = Penyusutan::with(['aset', 'user'])
+        ->when($tahun, function ($query, $tahun) {
+            return $query->where('TahunPenyusutan', $tahun);
+        })
+        ->get();
+
+    $pdf = Pdf::loadView('penyusutans.cetak', compact('penyusutan', 'tahun'))
+              ->setPaper('a4', 'landscape'); // 🔹 Tambahkan baris ini
+
+    return $pdf->stream('laporan_penyusutan_' . $tahun . '.pdf');
+}
+
+public function exportPdfShow($id)
+{
+    $penyusutan = Penyusutan::with('aset')->findOrFail($id);
+    
+
+    // Menghitung rincian penyusutan per tahun
+    $rincian = [];
+    $nilaiAwal = $penyusutan->NilaiAwal;
+    $nilaiResidu = $penyusutan->aset->NilaiResidu; // Ambil nilai residu dari aset
+    $penyusutanTahunan = $penyusutan->PenyusutanTahunan;
+    $masaManfaat = $penyusutan->aset->MasaManfaat; // Ambil masa manfaat dari aset
+        $penyusutan = Penyusutan::with(['aset', 'user'])
+            ->where('user_id', auth()->id()) 
+            ->when($tahun, function ($query, $tahun) {
+                return $query->where('TahunPenyusutan', $tahun);
+            })
+            ->get();
+    
+    for ($tahun = $penyusutan->TahunPenyusutan; $tahun < ($penyusutan->TahunPenyusutan + $masaManfaat); $tahun++) {
+        // Menghitung nilai akhir tahun setelah penyusutan
+        $nilaiAkhirTahun = $nilaiAwal - $penyusutanTahunan;
+
+        // Pastikan nilai akhir tidak kurang dari nilai residu
+        if ($nilaiAkhirTahun < $nilaiResidu) {
+            $nilaiAkhirTahun = $nilaiResidu;
+        }
+
+        // Menambahkan rincian penyusutan ke dalam array
+        $rincian[] = [
+            'tahun' => $tahun,
+            'nilai_awal' => $nilaiAwal,
+            'penyusutan' => $nilaiAwal > $nilaiResidu ? $penyusutanTahunan : 0,
+            'nilai_akhir' => $nilaiAkhirTahun
+        ];
+
+        // Jika nilai akhir sudah mencapai nilai residu, hentikan perhitungan
+        if ($nilaiAkhirTahun <= $nilaiResidu) {
+            break;
+        }
+
+        // Update nilai awal untuk iterasi berikutnya
+        $nilaiAwal = $nilaiAkhirTahun;
+    }
+
+    $pdf = \Pdf::loadView('penyusutans.export_pdf_show', compact('penyusutan', 'rincian'))
+              ->setPaper('a4', 'portrait');
+
+    return $pdf->stream('Detail_Penyusutan_' . ($penyusutan->aset->NamaAset ?? 'Aset') . '.pdf');
+}
+
+
+
+public function exportExcel(Request $request)
+{
+    $tahun = $request->input('TahunPenyusutan');
+
+    return Excel::download(new PenyusutanExport($tahun), 'laporan_penyusutan_' . ($tahun ?? 'semua') . '.xlsx');
+}
+
 }

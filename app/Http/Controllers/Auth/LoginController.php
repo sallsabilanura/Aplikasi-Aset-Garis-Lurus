@@ -6,7 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;     
+use Illuminate\Http\Request;  
+use Laravel\Socialite\Facades\Socialite;
+use App\Models\User;
+use Illuminate\Support\Str;
+
+
 
 
 
@@ -60,4 +65,32 @@ class LoginController extends Controller
 
     return redirect()->route('login')->with('error', 'Email atau password salah.');
 }
+
+
+  public function redirectToGoogle()
+{
+    return Socialite::driver('google')
+        ->with(['prompt' => 'select_account'])
+        ->redirect();
 }
+
+public function handleGoogleCallback()
+{
+    $googleUser = Socialite::driver('google')->user();
+
+    $user = User::firstOrCreate(
+        ['email' => $googleUser->getEmail()],
+        [
+            'name' => $googleUser->getName(),
+            'password' => bcrypt(Str::random(16)),
+        ]
+    );
+
+    Auth::login($user);
+
+    return redirect('/dashboard');
+}
+
+}
+
+

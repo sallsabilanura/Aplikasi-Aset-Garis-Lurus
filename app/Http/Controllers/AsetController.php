@@ -24,32 +24,6 @@ class AsetController extends Controller
      */
 
 
-
-     public function exportPDF(Request $request)
-{
-    $kategoriId = $request->input('kategori');
-    $tahun = $request->input('tahun');
-
-    $asets = Aset::query();
-
-    if ($kategoriId) {
-        $asets->where('KategoriID', $kategoriId);
-    }
-
-    if ($tahun) {
-        $asets->whereYear('TanggalPerolehan', $tahun);
-    }
-
-    // Ambil data + relasi foto
-    $asets = $asets->with(['kategori', 'user', 'barang.lokasis'])->get();
-
-    $pdf = Pdf::loadView('asets.pdf', compact('asets'))
-              ->setPaper('a4', 'landscape');
-
-    return $pdf->download('daftar_aset.pdf');
-}
-
-
      
 public function index(Request $request)
 {
@@ -233,7 +207,11 @@ public function penghapusan(Request $request)
         ];
 
         // Generate QR code dari data JSON
-        $qrCode = QrCode::size(300)->generate(json_encode($data));
+// Buat URL menuju halaman detail aset
+$url = route('asets.show', ['AsetID' => $aset->AsetID]);
+
+// Generate QR code dengan URL, bukan JSON
+$qrCode = QrCode::size(300)->generate($url);
 
         // Kirim data aset dan QR code ke view
         return view('asets.show', compact('aset', 'qrCode'));
@@ -354,5 +332,32 @@ public function exportExcel(Request $request)
 
     return Excel::download(new AsetExport($request->kategori, $request->tahun), 'daftar_aset.xlsx');
 }
+
+
+     public function exportPDF(Request $request)
+{
+    $kategoriId = $request->input('kategori');
+    $tahun = $request->input('tahun');
+
+    $asets = Aset::query();
+
+    if ($kategoriId) {
+        $asets->where('KategoriID', $kategoriId);
+    }
+
+    if ($tahun) {
+        $asets->whereYear('TanggalPerolehan', $tahun);
+    }
+
+    // Ambil data + relasi foto
+    $asets = $asets->with(['kategori', 'user', 'barang.lokasis'])->get();
+
+    $pdf = Pdf::loadView('asets.pdf', compact('asets'))
+              ->setPaper('a4', 'landscape');
+
+    return $pdf->download('daftar_aset.pdf');
+}
+
+   
 
 }

@@ -76,6 +76,7 @@ Route::get('/penyusutans/{id}/export-pdf', [PenyusutanController::class, 'export
      ->name('penyusutans.exportPdfShow');
 route::resource('penyusutans', PenyusutanController::class);
 Route::put('/users/{id}/update-status', [UserController::class, 'updateStatus'])->name('users.updateStatus');
+
 Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 Route::get('/asets/export-excel', [AsetController::class, 'exportExcel'])->name('asets.exportExcel');
 Route::get('/barangs/export-excel', [BarangController::class, 'exportExcel'])->name('barangs.exportExcel');
@@ -92,3 +93,10 @@ Route::get('/test-email', function () {
 
     return 'Email sudah dikirim (kalau Mailtrap benar).';
 });
+
+Route::get('/asets/show/{AsetID}', [AsetController::class, 'show'])->name('asets.show');
+
+use App\Http\Controllers\Auth\LoginController;
+
+Route::get('login/google', [LoginController::class, 'redirectToGoogle']);
+Route::get('login/google/callback', [LoginController::class, 'handleGoogleCallback']);
